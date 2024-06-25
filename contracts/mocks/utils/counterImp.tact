@@ -1,4 +1,4 @@
-import "../traits/utils/counter.tact";
+import "../../traits/utils/counter.tact";
 
 contract CounterImp with Counter {
     Counter: Int;
