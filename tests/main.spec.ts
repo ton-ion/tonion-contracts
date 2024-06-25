@@ -1,7 +1,7 @@
 import { shouldBehaveLikeOwnableTransferable2Step } from './access/Counter.behavior';
 import { shouldBehaveLikeCounter } from './utils/Counter.behavior';
 
-describe('UnitTests', function () {
+describe('OpenGem-contract UnitTests', function () {
     describe('Utils', function () {
         shouldBehaveLikeCounter();
     });

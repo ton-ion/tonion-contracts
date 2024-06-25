@@ -1,9 +1,15 @@
 {
     "name": "opengem-contracts",
+    "author": {"name": "zig balthazar","email": "zigbalthazar@gmail.com"},
+    "contributors": [{"name": "zig balthazar","email": "zigbalthazar@gmail.com"},{"name": "Kayhan Alizadeh","email": "kehiiiiya@gmail.com"}],
     "version": "0.0.1",
+    "description": "Secure Smart Contract library for Tact",
+    "files": [
+        "/contracts/traits/**/*.tact",
+        "!/contracts/mocks/**/*"
+      ],
     "scripts": {
-        "start": "blueprint run",
-        "build": "blueprint build",
+        "build:all": "blueprint build --all",
         "test": "jest --verbose"
     },
     "devDependencies": {
