@@ -1,4 +1,13 @@
-# OpenGem Contracts
+
+<p align="center">
+    <img alt="Open Gem" src="./assets/banner.png" width="700" height="200" />
+</p>
+
+<h1 align="center">
+OpenGem Contracts
+</h1>
+
+<br/>
 
 OpenGem Contracts is a secure and reusable smart contract library for the Tact language on the TON blockchain. OpenGem aims to provide reliable and efficient contract components to streamline the development of TON-based decentralized applications.
 
