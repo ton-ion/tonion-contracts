@@ -1,6 +1,6 @@
 # OpenGem Contracts
 
-OpenGem Contracts is a secure and reusable smart contract library for the Tact language on the TON blockchain. Inspired by OpenZeppelin, OpenGem aims to provide reliable and efficient contract components to streamline the development of TON-based decentralized applications.
+OpenGem Contracts is a secure and reusable smart contract library for the Tact language on the TON blockchain. OpenGem aims to provide reliable and efficient contract components to streamline the development of TON-based decentralized applications.
 
 ## Table of Contents
 
