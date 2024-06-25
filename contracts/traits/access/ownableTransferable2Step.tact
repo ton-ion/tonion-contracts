@@ -12,19 +12,15 @@ import "@stdlib/ownable";
  */
 
 message ChangeOwner2Step {
-    queryId: Int as uint64;
     pendingOwner: Address;
 }
 message ChangeOwner2StepOk {
-    queryId: Int as uint64;
     pendingOwner: Address;
 }
 message AcceptOwnership2StepOk {
-    queryId: Int as uint64;
     newOwner: Address;
 }
 message AcceptOwnership2Step {
-    queryId: Int as uint64;
 }
 
 //
@@ -42,7 +38,7 @@ trait OwnableTransferable2Step with Ownable {
         // Update _pendingOwner
         self._pendingOwner = msg.pendingOwner;
         // Reply result
-        self.reply(ChangeOwner2StepOk{queryId: msg.queryId, pendingOwner: msg.pendingOwner}.toCell());
+        self.reply(ChangeOwner2StepOk{pendingOwner: msg.pendingOwner}.toCell());
     }
 
     /**
@@ -54,7 +50,7 @@ trait OwnableTransferable2Step with Ownable {
         // Update owner and delete _pendingOwner
         self._transferOwnership(sender());
         // Reply result
-        self.reply(AcceptOwnership2StepOk{queryId: msg.queryId, newOwner: self.owner}.toCell());
+        self.reply(AcceptOwnership2StepOk{newOwner: self.owner}.toCell());
     }
 
     fun _requirePendingOwner() {
