@@ -1,4 +1,3 @@
-
 <p align="center">
     <img alt="Open Gem" src="./assets/banner.png" width="700" height="200" />
 </p>
@@ -13,13 +12,13 @@ OpenGem Contracts is a secure and reusable smart contract library for the Tact l
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Scripts](#scripts)
-- [Project Structure](#project-structure)
-- [Contributing](#contributing)
-- [Contributors](#contributors)
-- [License](#license)
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [Scripts](#scripts)
+-   [Project Structure](#project-structure)
+-   [Contributing](#contributing)
+-   [Contributors](#contributors)
+-   [License](#license)
 
 ## Usage
 
@@ -29,29 +28,31 @@ Import the required contracts and traits in your Tact code:
 ```tact
 import "./imports/traits/someCategory/SomeContract.tact";
 ```
+
 We are working on a solution to use `npm` to install OpenGem Contracts and import them directly into your contracts without the need to copy the files manually. Additionally, we are exploring potential changes in Tact to support importing directly from GitHub or similar platforms.
 
 ## Libraries
 
 ```plaintext
 ├── access
-│   └── ownableTransferable2Step
+│   ├── ownableTransferable2Step
+│   └── accessControl
 └── utils
     └── counter
 ```
 
-
 ## Scripts
 
-- **Build All Contracts**: Compiles all the contracts in the library.
-  ```sh
-  npm run build:all
-  ```
+-   **Build All Contracts**: Compiles all the contracts in the library.
 
-- **Run Tests**: Executes the test suite using Jest.
-  ```sh
-  npm test
-  ```
+    ```sh
+    npm run build:all
+    ```
+
+-   **Run Tests**: Executes the test suite using Jest.
+    ```sh
+    npm test
+    ```
 
 ## Project Structure
 
@@ -66,11 +67,10 @@ We are working on a solution to use `npm` to install OpenGem Contracts and impor
 ├── tests
 │   ├── (test categories)
 │   │       └── (test files)
-│   └── main.spec.ts 
+│   └── main.spec.ts
 ├── package.json
 └── README.md
 ```
-
 
 ## Contributing
 
@@ -82,8 +82,8 @@ We welcome contributions from the community! If you'd like to contribute, please
 
 ## Contributors
 
-- **Zig Balthazar** - [zigbalthazar@gmail.com](mailto:zigbalthazar@gmail.com)
-- **Kayhan Alizadeh** - [kehiiiiya@gmail.com](mailto:kehiiiiya@gmail.com)
+-   **Zig Balthazar** - [zigbalthazar@gmail.com](mailto:zigbalthazar@gmail.com)
+-   **Kayhan Alizadeh** - [kehiiiiya@gmail.com](mailto:kehiiiiya@gmail.com)
 
 ## License
 

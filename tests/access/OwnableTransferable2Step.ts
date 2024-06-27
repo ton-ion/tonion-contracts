@@ -1,9 +1,7 @@
 import { Blockchain, SandboxContract, TreasuryContract } from '@ton/sandbox';
 import { toNano } from '@ton/core';
 import '@ton/test-utils';
-import {
-    OwnableTransferable2StepImp,
-} from '../../build/Ownable2Step/tact_OwnableTransferable2StepImp';
+import { OwnableTransferable2StepImp } from '../../build/Ownable2Step/tact_OwnableTransferable2StepImp';
 
 export function shouldBehaveLikeOwnableTransferable2Step(): void {
     let blockchain: Blockchain;
@@ -24,7 +22,7 @@ export function shouldBehaveLikeOwnableTransferable2Step(): void {
         const sendChangeOwner2StepResult = await ownableTransferable2Step.send(
             alice.getSender(),
             { value: toNano('0.05') },
-            { $$type: 'ChangeOwner2Step', pendingOwner: bob.address, queryId: BigInt(2) },
+            { $$type: 'ChangeOwner2Step', pendingOwner: bob.address },
         );
 
         expect(sendChangeOwner2StepResult.transactions).toHaveTransaction({
@@ -39,20 +37,20 @@ export function shouldBehaveLikeOwnableTransferable2Step(): void {
         const currentPendingOwner = await ownableTransferable2Step.getPendingOwner();
         expect(currentPendingOwner?.toString()).toBe(bob.address.toString());
 
-        // TODO test reply messages
+        // TODO test for events
     });
 
     it('should AcceptOwnership2Step correctly', async () => {
         await ownableTransferable2Step.send(
             alice.getSender(),
             { value: toNano('0.05') },
-            { $$type: 'ChangeOwner2Step', pendingOwner: bob.address, queryId: BigInt(2) },
+            { $$type: 'ChangeOwner2Step', pendingOwner: bob.address },
         );
 
         const sendAcceptOwnership2StepResult = await ownableTransferable2Step.send(
             bob.getSender(),
             { value: toNano('0.05') },
-            { $$type: 'AcceptOwnership2Step', queryId: BigInt(2) },
+            { $$type: 'AcceptOwnership2Step' },
         );
 
         expect(sendAcceptOwnership2StepResult.transactions).toHaveTransaction({
@@ -68,5 +66,5 @@ export function shouldBehaveLikeOwnableTransferable2Step(): void {
         expect(currentPendingOwner).toBe(null);
     });
 
-    // TODO test reply messages
+    // TODO test for events
 }

@@ -1,12 +1,20 @@
-import { shouldBehaveLikeOwnableTransferable2Step } from './access/Counter.behavior';
+import { shouldBehaveLikeAccessControl } from './access/AccessControl.behavior';
+import { shouldBehaveLikeOwnableTransferable2Step } from './access/OwnableTransferable2Step';
 import { shouldBehaveLikeCounter } from './utils/Counter.behavior';
 
 describe('OpenGem-contract UnitTests', function () {
     describe('Utils', function () {
-        shouldBehaveLikeCounter();
+        describe('Counter', function () {
+            shouldBehaveLikeCounter();
+        });
     });
 
     describe('Access', function () {
-        shouldBehaveLikeOwnableTransferable2Step();
+        describe('Ownable Transferable 2 Step', function () {
+            shouldBehaveLikeOwnableTransferable2Step();
+        });
+        describe('Access Control', function () {
+            shouldBehaveLikeAccessControl();
+        });
     });
 });
