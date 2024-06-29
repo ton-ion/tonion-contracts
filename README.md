@@ -26,7 +26,11 @@ add the `traits (contracts/traits)` to your project `contracts/imports`, then
 Import the required contracts and traits in your Tact code:
 
 ```tact
-import "./imports/traits/someCategory/SomeContract.tact";
+import "./imports/traits/someCategory/SomeTrait.tact";
+
+contract MyContract with someTrait {
+    //your logic :)
+}
 ```
 
 We are working on a solution to use `npm` to install OpenGem Contracts and import them directly into your contracts without the need to copy the files manually. Additionally, we are exploring potential changes in Tact to support importing directly from GitHub or similar platforms.
@@ -37,8 +41,11 @@ We are working on a solution to use `npm` to install OpenGem Contracts and impor
 ├── access
 │   ├── ownableTransferable2Step
 │   └── accessControl
-└── utils
-    └── counter
+├── utils
+│   └── counter
+└── tokens
+    └── jetton
+        └── basic(master and wallet)
 ```
 
 ## Scripts
