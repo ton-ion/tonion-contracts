@@ -89,8 +89,8 @@ We welcome contributions from the community! If you'd like to contribute, please
 
 ## Contributors
 
--   **Zig Balthazar** - [zigbalthazar@gmail.com](mailto:zigbalthazar@gmail.com)
--   **Kayhan Alizadeh** - [kehiiiiya@gmail.com](mailto:kehiiiiya@gmail.com)
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
 
 ## License
 
