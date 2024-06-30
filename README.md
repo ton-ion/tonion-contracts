@@ -90,6 +90,19 @@ We welcome contributions from the community! If you'd like to contribute, please
 ## Contributors
 
 <!-- readme: contributors -start -->
+<table>
+	<tbody>
+		<tr>
+            <td align="center">
+                <a href="https://github.com/ZigBalthazar">
+                    <img src="https://avatars.githubusercontent.com/u/42387185?v=4" width="50;" alt="ZigBalthazar"/>
+                    <br />
+                    <sub><b>Zig Blathazar</b></sub>
+                </a>
+            </td>
+		</tr>
+	<tbody>
+</table>
 <!-- readme: contributors -end -->
 
 ## License
