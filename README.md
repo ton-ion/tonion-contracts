@@ -1,14 +1,14 @@
 <p align="center">
-    <img alt="Open Gem" src="./assets/banner.png" width="700" height="200" />
+    <img alt="TonIon" src="./assets/banner.png" width="700" height="200" />
 </p>
 
 <h1 align="center">
-OpenGem Contracts
+TonIon Contracts
 </h1>
 
 <br/>
 
-OpenGem Contracts is a secure and reusable smart contract library for the Tact language on the TON blockchain. OpenGem aims to provide reliable and efficient contract components to streamline the development of TON-based decentralized applications.
+TonIon Contracts is a secure and reusable smart contract library for the Tact language on the TON blockchain. TonIon aims to provide reliable and efficient contract components to streamline the development of TON-based decentralized applications.
 
 ## Table of Contents
 
@@ -33,7 +33,7 @@ contract MyContract with someTrait {
 }
 ```
 
-We are working on a solution to use `npm` to install OpenGem Contracts and import them directly into your contracts without the need to copy the files manually. Additionally, we are exploring potential changes in Tact to support importing directly from GitHub or similar platforms.
+We are working on a solution to use `npm` to install OpenGem Contracts and import them directly into your contracts without copying the files manually. Additionally, we are exploring potential changes in Tact to support importing directly from GitHub or similar platforms.
 
 ## Libraries
 
@@ -89,7 +89,7 @@ We are working on a solution to use `npm` to install OpenGem Contracts and impor
 We welcome contributions from the community! If you'd like to contribute, please follow these steps:
 
 1. Fork the repository.
-2. Add feature or fix bug
+2. Add a feature or fix a bug
 3. Open a pull request.
 
 ## Contributors
