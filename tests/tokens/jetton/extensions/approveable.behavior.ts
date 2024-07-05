@@ -71,22 +71,22 @@ export function shouldBehaveLikeApproveableJetton(): void {
         );
 
 
-        let spendMessage: TokenSpend = {
-            $$type: "TokenSpend",
-            queryId: 0n,
-            amount: BigInt("500"),
-            destination: sarah.address,
-            response_destination: sarah.address,
-            custom_payload: null,
-            forward_ton_amount: toNano("0.1"),
-            forward_payload: beginCell().endCell(),
-        };
+        // let spendMessage: TokenSpend = {
+        //     $$type: "TokenSpend",
+        //     queryId: 0n,
+        //     amount: BigInt("500"),
+        //     destination: sarah.address,
+        //     response_destination: sarah.address,
+        //     custom_payload: null,
+        //     forward_ton_amount: toNano("0.1"),
+        //     forward_payload: beginCell().endCell(),
+        // };
 
-        await bob_wallet.send(
-            bob.getSender(),
-            { value: toNano('10') },
-            spendMessage
-        );
+        // await bob_wallet.send(
+        //     bob.getSender(),
+        //     { value: toNano('10') },
+        //     spendMessage
+        // );
 
         // expect(a.transactions).toHaveTransaction({success:true,from:sarah.address,to:bob_wallet.address})
 

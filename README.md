@@ -47,7 +47,8 @@ We are working on a solution to use `npm` to install OpenGem Contracts and impor
     └── jetton
         ├── basic(master and wallet)
         └── extensions
-            └── maxSupply
+            ├── maxSupply
+            └── approveable(in progress)
 ```
 
 ## Scripts
