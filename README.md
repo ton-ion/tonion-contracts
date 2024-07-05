@@ -1,7 +1,3 @@
-<p align="center">
-    <img alt="TonIon" src="./assets/banner.png" width="700" height="200" />
-</p>
-
 <h1 align="center">
 TonIon Contracts
 </h1>
