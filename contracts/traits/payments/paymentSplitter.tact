@@ -18,15 +18,20 @@ trait PaymentSplitter {
             "PaymentSplitter: account has no shares"
         );
         let shares: Int = self._shares.get(account)!!;
-        let a: Int? = self._released.get(account);
         let released: Int = 0;
+
+        let a: Int? = self._released.get(account);
         if (a != null) {
             released = self._released.get(account)!!;
         }
 
         let totalReceived: Int = (myBalance() + self._totalReleased);
         let payment: Int = (totalReceived * shares / self._totalShares - released);
+
         send(SendParameters{to: account, bounce: true, value: payment, mode: (SendRemainingValue + SendIgnoreErrors)});
+        
+        self._released.set(account, (released + payment));
+        self._totalReleased = (self._totalReleased + payment);
     }
 
     get fun released(account: Address): Int? {
