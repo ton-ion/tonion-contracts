@@ -77,7 +77,7 @@ contract JettonSampleWalletImp with JettonDefaultWallet {
         self.tokenTransferInternal(msg, sinit);
     }
 
-    get fun get_wallet_data(walletCode: Cell): JettonWalletData {
+    get fun get_wallet_data(): JettonWalletData {
         let sinit: Cell = initOf JettonSampleWalletImp(self.master, self.owner).code;
         return self.get_wallet_data_handler(sinit);
     }
