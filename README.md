@@ -45,7 +45,9 @@ We are working on a solution to use `npm` to install OpenGem Contracts and impor
 │   └── counter
 └── tokens
     └── jetton
-        └── basic(master and wallet)
+        ├── basic(master and wallet)
+        └── extensions
+            └── maxSupply
 ```
 
 ## Scripts
