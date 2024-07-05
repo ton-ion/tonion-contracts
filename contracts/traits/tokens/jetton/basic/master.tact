@@ -30,7 +30,6 @@ trait Jetton with Ownable {
     mintable: Bool;
     owner: Address;
     content: Cell;
-    //! max_supply: Int; // This is not in the TEP-74 interface
 
     fun tokenBurnNotification(msg: TokenBurnNotification, winit:StateInit) {
         self.requireWallet(msg.owner, winit); // Check wallet
