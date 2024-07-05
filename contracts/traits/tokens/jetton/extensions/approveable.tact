@@ -1,4 +1,19 @@
-trait approveable {
+message TokenSpend {
+    queryId: Int as uint64;
+    amount: Int as coins;
+    destination: Address;
+    response_destination: Address;
+    custom_payload: Cell?;
+    forward_ton_amount: Int as coins;
+    forward_payload: Slice as remaining;
+}
+
+message TokenApprove {
+    amount: Int as coins;
+    spender: Address;
+}
+
+trait approveableWallet {
     allowances: map<Address,Int>;
 
     fun approve(spender:Address, amount:Int) {
@@ -19,6 +34,7 @@ trait approveable {
         if(currentAllowance < amount){
             nativeThrow(8080);
         }
+        
         self.allowances.set(spender,(currentAllowance - amount));
     }
 }

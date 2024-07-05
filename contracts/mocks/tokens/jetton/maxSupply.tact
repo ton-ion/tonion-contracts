@@ -6,9 +6,9 @@ message Mint {
     receiver: Address;
 }
 
-contract MaxSupplyJettonImp with Jetton,JettonMaxSupply  {
+contract MaxSupplyJettonImp with Jetton, JettonMaxSupply  {
     totalSupply: Int as coins;
-    maxSupply:Int;
+    maxSupply:Int as coins;
     owner: Address;
     content: Cell;
     mintable: Bool;
@@ -68,7 +68,7 @@ contract JettonSampleWalletImp with JettonDefaultWallet {
 
     receive(msg: TokenTransfer){
         let init: StateInit = initOf JettonSampleWalletImp(self.master, msg.destination);
-        self.tokenTrnasfer(msg, init);
+        self.tokenTransfer(msg, init);
     }
 
     receive(msg: TokenBurn){

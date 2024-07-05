@@ -35,7 +35,7 @@ trait JettonDefaultWallet {
     owner: Address;
     master: Address;
 
-    fun tokenTrnasfer(msg: TokenTransfer, init: StateInit) {
+    fun tokenTransfer(msg: TokenTransfer, init: StateInit) {
         // 0xf8a7ea5
         let ctx: Context = context(); // Check sender
         require(ctx.sender == self.owner, "Invalid sender");

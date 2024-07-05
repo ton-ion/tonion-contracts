@@ -5,7 +5,7 @@ import { buildOnchainMetadata } from '../jettonHelper';
 import { JettonSampleWalletImp, TokenTransfer } from '../../../../build/BasicJetton/tact_JettonSampleWalletImp';
 import { MaxSupplyJettonImp } from '../../../../build/MaxSupplyJetton/tact_MaxSupplyJettonImp';
 
-export function shouldBehaveLikeBasicJetton(): void {
+export function shouldBehaveLikeMaxSupplyJetton(): void {
     let blockchain: Blockchain;
     let jetton: SandboxContract<MaxSupplyJettonImp>;
     let alice: SandboxContract<TreasuryContract>;
@@ -27,24 +27,17 @@ export function shouldBehaveLikeBasicJetton(): void {
         const Jetton = await MaxSupplyJettonImp.fromInit(alice.address, jettonContent, BigInt('1000000000'));
         jetton = blockchain.openContract<MaxSupplyJettonImp>(Jetton);
 
-        await jetton.send(
+        const mintMessage = await jetton.send(
             alice.getSender(),
-            { value: toNano('1') },
+            { value: toNano('5') },
             { $$type: 'Mint', amount: BigInt('1000000000'), receiver: bob.address },
         );
-    });
 
-    it('should init correctly', async () => {
-        const owner = await jetton.getOwner();
-        expect(owner.toString()).toBe(alice.address.toString());
-
-        const jettonData = await jetton.getGetJettonData();
-        const wallet = await JettonSampleWalletImp.init(jetton.address, bob.address);
-        expect(jettonData.$$type).toBe('JettonData');
-        expect(jettonData.mintable).toBe(true);
-        expect(jettonData.totalSupply).toBe(BigInt('1000000000'));
-        expect(jettonData.owner.toString()).toBe(alice.address.toString());
-        expect(jettonData.walletCode.toString()).toBe(wallet.code.toString());
+        expect(mintMessage.transactions).toHaveTransaction({
+            success:true,
+            from:alice.address,
+            to:jetton.address
+        })
     });
 
     it('should revert for mint more jetton correctly', async () => {

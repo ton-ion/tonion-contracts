@@ -3,7 +3,7 @@ trait JettonMaxSupply {
     totalSupply: Int;
 
     fun requireMaxSupply(mintAmount: Int) {
-        if(self.maxSupply >= (self.totalSupply + mintAmount)){
+        if(self.maxSupply < (self.totalSupply + mintAmount)){
             throw(7878);
         }
     }
