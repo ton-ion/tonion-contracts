@@ -21,7 +21,7 @@
         "!/contracts/mocks/**/*"
     ],
     "scripts": {
-        "build:all": "blueprint build --all",
+        "build:all": "rm -rf ./build/* && blueprint build --all",
         "test": "jest --verbose",
         "format": "npx prettier -w ."
     },
