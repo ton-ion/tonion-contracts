@@ -1,0 +1,33 @@
+name: Run BluePrint Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Run tests with BluePrint
+    runs-on: ubuntu-latest
+    env:
+      CI: 'true'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm ci
+    - name: Build contracts
+      run: npm run build:all
+
+    - name: Run BluePrint tests
+      run: npm test

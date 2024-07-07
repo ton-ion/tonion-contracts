@@ -1,14 +1,10 @@
-<p align="center">
-    <img alt="Open Gem" src="./assets/banner.png" width="700" height="200" />
-</p>
-
 <h1 align="center">
-OpenGem Contracts
+    <img alt="TonIon" src="./assets/banner.png" width="540" height="320" />
 </h1>
 
 <br/>
 
-OpenGem Contracts is a secure and reusable smart contract library for the Tact language on the TON blockchain. OpenGem aims to provide reliable and efficient contract components to streamline the development of TON-based decentralized applications.
+TonIon Contracts is a reusable smart contract library and toolkit for the Tact language on the TON blockchain. TonIon aims to provide reliable and efficient contract components to streamline the development of TON-based decentralized applications.
 
 ## Table of Contents
 
@@ -22,14 +18,23 @@ OpenGem Contracts is a secure and reusable smart contract library for the Tact l
 
 ## Usage
 
+### Traits
 add the `traits (contracts/traits)` to your project `contracts/imports`, then
 Import the required contracts and traits in your Tact code:
 
 ```tact
-import "./imports/traits/someCategory/SomeContract.tact";
-```
+import "./imports/traits/someCategory/SomeTrait.tact";
 
-We are working on a solution to use `npm` to install OpenGem Contracts and import them directly into your contracts without the need to copy the files manually. Additionally, we are exploring potential changes in Tact to support importing directly from GitHub or similar platforms.
+contract MyContract with someTrait {
+    //your logic :)
+}
+```
+### implementation
+actually you can find implementation for the traits or TEPs in `mock (contracts/mock)` directory
+
+<br>
+
+We are working on a solution to use `npm` to install OpenGem Contracts and import them directly into your contracts without copying the files manually. Additionally, we are exploring potential changes in Tact to support importing directly from GitHub or similar platforms.
 
 ## Libraries
 
@@ -37,8 +42,16 @@ We are working on a solution to use `npm` to install OpenGem Contracts and impor
 ├── access
 │   ├── ownableTransferable2Step
 │   └── accessControl
-└── utils
-    └── counter
+├── utils
+│   └── counter
+├── payments
+│   └── paymentSplitter
+└── tokens
+    └── jetton
+        ├── basic(master and wallet)
+        └── extensions
+            ├── maxSupply
+            └── approveable(in progress)
 ```
 
 ## Scripts
@@ -77,13 +90,33 @@ We are working on a solution to use `npm` to install OpenGem Contracts and impor
 We welcome contributions from the community! If you'd like to contribute, please follow these steps:
 
 1. Fork the repository.
-2. Add feature or fix bug
+2. Add a feature or fix a bug
 3. Open a pull request.
 
 ## Contributors
 
--   **Zig Balthazar** - [zigbalthazar@gmail.com](mailto:zigbalthazar@gmail.com)
--   **Kayhan Alizadeh** - [kehiiiiya@gmail.com](mailto:kehiiiiya@gmail.com)
+<!-- readme: contributors -start -->
+<table>
+	<tbody>
+		<tr>
+            <td align="center">
+                <a href="https://github.com/ZigBalthazar">
+                    <img src="https://avatars.githubusercontent.com/u/42387185?v=4" width="50;" alt="ZigBalthazar"/>
+                    <br />
+                    <sub><b>Zig Blathazar</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/kehiy">
+                    <img src="https://avatars.githubusercontent.com/u/89645414?v=4" width="50;" alt="kehiy"/>
+                    <br />
+                    <sub><b>Kay</b></sub>
+                </a>
+            </td>
+		</tr>
+	<tbody>
+</table>
+<!-- readme: contributors -end -->
 
 ## License
 

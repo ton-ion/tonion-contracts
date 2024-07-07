@@ -1,5 +1,9 @@
 import { shouldBehaveLikeAccessControl } from './access/AccessControl.behavior';
 import { shouldBehaveLikeOwnableTransferable2Step } from './access/OwnableTransferable2Step';
+import { shouldBehaveLikePaymentSplitter } from './payments/paymentSplitter.behavior';
+import { shouldBehaveLikeBasicJetton } from './tokens/jetton/basic/Basic.behavior';
+import { shouldBehaveLikeApproveableJetton } from './tokens/jetton/extensions/approveable.behavior';
+import { shouldBehaveLikeMaxSupplyJetton } from './tokens/jetton/extensions/maxsupply.behavior';
 import { shouldBehaveLikeCounter } from './utils/Counter.behavior';
 
 describe('OpenGem-contract UnitTests', function () {
@@ -15,6 +19,28 @@ describe('OpenGem-contract UnitTests', function () {
         });
         describe('Access Control', function () {
             shouldBehaveLikeAccessControl();
+        });
+    });
+
+    describe('Tokens', function () {
+        describe('Jetton', function () {
+            describe('Basic', function () {
+                shouldBehaveLikeBasicJetton();
+            });
+            describe('extensions', function () {
+                describe('maxSupply', function () {
+                    shouldBehaveLikeMaxSupplyJetton();
+                });
+                describe('approveable', function () {
+                    // shouldBehaveLikeApproveableJetton();
+                });
+            });
+        });
+    });
+
+    describe('Payments', function () {
+        describe('paymentSplitter', function () {
+            shouldBehaveLikePaymentSplitter();
         });
     });
 });
