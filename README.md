@@ -107,17 +107,17 @@ We welcome contributions from the community! If you'd like to contribute, please
                 </a>
             </td>
             <td align="center">
-                <a href="https://github.com/olumo-oke">
-                    <img src="https://avatars.githubusercontent.com/u/173970179?v=4" width="50;" alt="olumo-oke"/>
-                    <br />
-                    <sub><b>olumo-oke</b></sub>
-                </a>
-            </td>
-            <td align="center">
                 <a href="https://github.com/kehiy">
                     <img src="https://avatars.githubusercontent.com/u/89645414?v=4" width="50;" alt="kehiy"/>
                     <br />
                     <sub><b>Kay</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/olumo-oke">
+                    <img src="https://avatars.githubusercontent.com/u/173970179?v=4" width="50;" alt="olumo-oke"/>
+                    <br />
+                    <sub><b>olumo-oke</b></sub>
                 </a>
             </td>
 		</tr>
