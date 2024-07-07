@@ -66,16 +66,3 @@ fun padRight(str: String, length: Int, char: String): String {
     return str ++ char.repeat(diff);
 }
 
-// Example usage
-// let concatenated = concatenate("Hello, ", "World!");
-// let sub = substring("Hello, World!", 7, 5);
-// let len = length("Hello");
-// let cmp = compare("abc", "def");
-// let str = intToString(123);
-// let char = charAt("Hello", 2);
-// let containsPattern = contains("Hello, World!", "World");
-// let trimmed = trim("  Hello, World!  ");
-// let paddedLeft = padLeft("Hello", 10, "*");
-// let paddedRight = padRight("Hello", 10, "*");
-
-// Unicode support is inherent in Tact's string operations, ensuring compatibility with different characters and symbols.
