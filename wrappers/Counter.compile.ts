@@ -5,5 +5,9 @@ export const compile: CompilerConfig = {
     target: 'contracts/mocks/utils/counterImp.tact',
     options: {
         debug: true,
+        external: true,
+        experimental: {
+            inline: true,
+        },
     },
 };
