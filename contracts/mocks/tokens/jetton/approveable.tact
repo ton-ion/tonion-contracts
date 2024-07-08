@@ -1,5 +1,5 @@
-import "../../../traits/tokens/jetton/basic/master.tact";
-import "../../../traits/tokens/jetton/basic/wallet.tact";
+import "../../../traits/tokens/jetton/master.tact";
+import "../../../traits/tokens/jetton/wallet.tact";
 import "../../../traits/tokens/jetton/extensions/approveable.tact";
 message Mint {
     amount: Int;

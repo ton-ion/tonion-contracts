@@ -1,15 +1,15 @@
 import { Blockchain, SandboxContract, TreasuryContract } from '@ton/sandbox';
 import { beginCell, Cell, Dictionary, toNano } from '@ton/core';
 import '@ton/test-utils';
-import { SampleJettonImp } from '../../../../build/BasicJetton/tact_SampleJettonImp';
-import { buildOnchainMetadata } from '../jettonHelper';
-import { JettonSampleWalletImp, TokenTransfer } from '../../../../build/BasicJetton/tact_JettonSampleWalletImp';
+import { buildOnchainMetadata } from './jettonHelper';
+import { JettonMasterImp, JettonTransfer } from '../../../build/BasicJetton/tact_JettonMasterImp';
+import { JettonWalletImp } from '../../../build/BasicJetton/tact_JettonWalletImp';
 
 export function shouldBehaveLikeBasicJetton(): void {
     let blockchain: Blockchain;
-    let jetton: SandboxContract<SampleJettonImp>;
-    let bob_wallet: SandboxContract<JettonSampleWalletImp>;
-    let sarah_wallet: SandboxContract<JettonSampleWalletImp>;
+    let jettonMaster: SandboxContract<JettonMasterImp>;
+    let bob_wallet: SandboxContract<JettonWalletImp>;
+    let sarah_wallet: SandboxContract<JettonWalletImp>;
     let alice: SandboxContract<TreasuryContract>;
     let bob: SandboxContract<TreasuryContract>;
     let sarah: SandboxContract<TreasuryContract>;
@@ -28,31 +28,36 @@ export function shouldBehaveLikeBasicJetton(): void {
         alice = await blockchain.treasury('ALICE');
         bob = await blockchain.treasury('BOB');
         sarah = await blockchain.treasury('SARAH');
-        const Jetton = await SampleJettonImp.fromInit(alice.address, jettonContent);
-        jetton = blockchain.openContract<SampleJettonImp>(Jetton);
-        const Bob_wallet = await JettonSampleWalletImp.fromInit(jetton.address, bob.address);
-        bob_wallet = blockchain.openContract<JettonSampleWalletImp>(Bob_wallet);
-        const Sarah_wallet = await JettonSampleWalletImp.fromInit(jetton.address,sarah.address);
-        sarah_wallet = blockchain.openContract<JettonSampleWalletImp>(Sarah_wallet);
+        const Jetton = await JettonMasterImp.fromInit(alice.address, jettonContent);
+        jettonMaster = blockchain.openContract<JettonMasterImp>(Jetton);
+        const Bob_wallet = await JettonWalletImp.fromInit(jettonMaster.address, bob.address);
+        bob_wallet = blockchain.openContract<JettonWalletImp>(Bob_wallet);
+        const Sarah_wallet = await JettonWalletImp.fromInit(jettonMaster.address, sarah.address);
+        sarah_wallet = blockchain.openContract<JettonWalletImp>(Sarah_wallet);
 
-        await jetton.send(
+        await jettonMaster.send(
             alice.getSender(),
             { value: toNano('1') },
-            { $$type: 'Mint', amount: BigInt('10000000'), receiver: bob.address },
+            {
+                $$type: 'JettonMint',
+                amount: BigInt('10000000'),
+                custom_payload: null,
+                origin: alice.address,
+                forward_ton_amount: 0n,
+                forward_payload: beginCell().endCell(),
+                receiver: bob.address,
+            },
         );
     });
 
     it('should init correctly', async () => {
-        const owner = await jetton.getOwner();
-        expect(owner.toString()).toBe(alice.address.toString());
-
-        const jettonData = await jetton.getGetJettonData();
-        const wallet = await JettonSampleWalletImp.init(jetton.address, bob.address);
+        const jettonData = await jettonMaster.getGetJettonData();
+        const wallet = await JettonWalletImp.init(jettonMaster.address, bob.address);
         expect(jettonData.$$type).toBe('JettonData');
         expect(jettonData.mintable).toBe(true);
-        expect(jettonData.totalSupply).toBe(BigInt('10000000'));
-        expect(jettonData.owner.toString()).toBe(alice.address.toString());
-        expect(jettonData.walletCode.toString()).toBe(wallet.code.toString());
+        expect(jettonData.total_supply).toBe(BigInt('10000000'));
+        expect(jettonData.admin_address.toString()).toBe(alice.address.toString());
+        expect(jettonData.jetton_wallet_code.toString()).toBe(wallet.code.toString());
     });
 
     it('should mint correctly', async () => {
@@ -60,36 +65,36 @@ export function shouldBehaveLikeBasicJetton(): void {
 
         expect(walletData.$$type).toBe('JettonWalletData');
         expect(walletData.balance.toString()).toBe(BigInt('10000000').toString());
-        expect(walletData.master.toString()).toBe(jetton.address.toString());
+        expect(walletData.jetton.toString()).toBe(jettonMaster.address.toString());
         expect(walletData.owner.toString()).toBe(bob.address.toString());
     });
 
     it('should close mint correctly', async () => {
-        await jetton.send(alice.getSender(), { value: toNano('0.015') }, 'Owner: MintClose');
+        await jettonMaster.send(alice.getSender(), { value: toNano('0.015') }, 'Mint:Close');
 
-        const jettonData = await jetton.getGetJettonData();
+        const jettonData = await jettonMaster.getGetJettonData();
         expect(jettonData.mintable).toBe(false);
     });
 
     it('should return wallet address correctly', async () => {
-        const walletAddress = await jetton.getGetWalletAddress(bob.address);
+        const walletAddress = await jettonMaster.getGetWalletAddress(bob.address);
         expect(walletAddress.toString()).toBe(bob_wallet.address.toString());
     });
 
-    it("should transfer correctly", async()=>{
+    it('should transfer correctly', async () => {
         // bob -> sarah
 
-        let transferMessage: TokenTransfer = {
-            $$type: "TokenTransfer",
-            queryId: 0n,
-            amount: BigInt("50000"),
+        let transferMessage: JettonTransfer = {
+            $$type: 'JettonTransfer',
+            query_id: 0n,
+            amount: BigInt('50000'),
             destination: sarah.address,
             response_destination: sarah.address,
             custom_payload: null,
-            forward_ton_amount: toNano("0.1"),
+            forward_ton_amount: toNano('0.1'),
             forward_payload: beginCell().endCell(),
         };
-        await bob_wallet.send(bob.getSender(),{value:toNano("0.15")},transferMessage)
+        await bob_wallet.send(bob.getSender(), { value: toNano('0.15') }, transferMessage);
 
         let bobWalletData = await bob_wallet.getGetWalletData();
 
@@ -102,24 +107,23 @@ export function shouldBehaveLikeBasicJetton(): void {
         expect(sarahWalletData.owner.toString()).toBe(sarah.address.toString());
 
         transferMessage = {
-            $$type: "TokenTransfer",
-            queryId: 0n,
-            amount: BigInt("995000000"),
+            $$type: 'JettonTransfer',
+            query_id: 0n,
+            amount: BigInt('995000000'),
             destination: sarah.address,
             response_destination: sarah.address,
             custom_payload: null,
-            forward_ton_amount: toNano("0.1"),
+            forward_ton_amount: toNano('0.1'),
             forward_payload: beginCell().endCell(),
         };
-        const messageResult = await bob_wallet.send(bob.getSender(),{value:toNano("0.15")},transferMessage)
+        const messageResult = await bob_wallet.send(bob.getSender(), { value: toNano('0.15') }, transferMessage);
         expect(messageResult.transactions).toHaveTransaction({
-            success:false,
-            from:bob.address,
-            to:bob_wallet.address
-        })
+            success: false,
+            from: bob.address,
+            to: bob_wallet.address,
+        });
 
         bobWalletData = await bob_wallet.getGetWalletData();
         expect(bobWalletData.balance.toString()).toBe(BigInt('9950000').toString());
-
-    })
+    });
 }
