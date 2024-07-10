@@ -20,13 +20,48 @@ TonIon Contracts is a reusable smart contract library and toolkit for the Tact l
 
 ### Traits
 add the `traits (contracts/traits)` to your project `contracts/imports`, then
-Import the required contracts and traits in your Tact code:
+Import the required contracts and traits in your Tact code(Sample Jetton Master):
 
-```tact
-import "./imports/traits/someCategory/SomeTrait.tact";
+```ts
+import "@stdlib/deploy";
+import "../../../traits/tokens/jetton/JettonMaster.tact";
+import "../../../traits/tokens/jetton/JettonWallet.tact";
 
-contract MyContract with someTrait {
-    //your logic :)
+contract JettonMasterImp with JettonMaster, Deployable {
+    total_supply: Int as coins;
+    owner: Address;
+    jetton_content: Cell;
+    mintable: Bool;
+    
+    init(owner: Address, content: Cell){
+        self.total_supply = 0;
+        self.owner = owner;
+        self.mintable = true;
+        self.jetton_content = content;
+    }
+
+    override inline fun calculate_jetton_wallet_init(owner_address: Address): StateInit {
+        return initOf JettonWalletImp(owner_address, myAddress());
+    }
+
+}
+```
+
+and Jetton Wallet:
+```ts
+contract JettonWalletImp with JettonWallet, Deployable {
+    balance: Int as coins = 0;
+    owner: Address;
+    jetton_master: Address;
+
+    init(owner: Address, jetton_master: Address) {
+        self.owner = owner;
+        self.jetton_master = jetton_master;
+    }
+
+    override inline fun calculate_jetton_wallet_init(owner_address: Address): StateInit {
+        return initOf JettonWalletImp(owner_address, self.jetton_master);
+    }
 }
 ```
 ### implementation
