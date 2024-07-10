@@ -51,6 +51,10 @@ contract MyJetton with JettonMaster, Deployable {
 
 #### Sample Jetton Wallet:
 ```ts
+import "@stdlib/deploy";
+import "../../../traits/tokens/jetton/JettonMaster.tact";
+import "../../../traits/tokens/jetton/JettonWallet.tact";
+
 contract MyJettonWallet with JettonWallet, Deployable {
     balance: Int as coins = 0;
     owner: Address;
