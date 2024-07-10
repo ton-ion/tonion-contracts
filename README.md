@@ -29,7 +29,7 @@ import "@stdlib/deploy";
 import "../../../traits/tokens/jetton/JettonMaster.tact";
 import "../../../traits/tokens/jetton/JettonWallet.tact";
 
-contract JettonMasterImp with JettonMaster, Deployable {
+contract MyJetton with JettonMaster, Deployable {
     total_supply: Int as coins;
     owner: Address;
     jetton_content: Cell;
@@ -43,15 +43,15 @@ contract JettonMasterImp with JettonMaster, Deployable {
     }
 
     override inline fun calculate_jetton_wallet_init(owner_address: Address): StateInit {
-        return initOf JettonWalletImp(owner_address, myAddress());
+        return initOf MyJettonWallet(owner_address, myAddress());
     }
 
 }
 ```
 
-#### Jetton Wallet:
+#### Sample Jetton Wallet:
 ```ts
-contract JettonWalletImp with JettonWallet, Deployable {
+contract MyJettonWallet with JettonWallet, Deployable {
     balance: Int as coins = 0;
     owner: Address;
     jetton_master: Address;
@@ -62,20 +62,23 @@ contract JettonWalletImp with JettonWallet, Deployable {
     }
 
     override inline fun calculate_jetton_wallet_init(owner_address: Address): StateInit {
-        return initOf JettonWalletImp(owner_address, self.jetton_master);
+        return initOf MyJettonWallet(owner_address, self.jetton_master);
     }
 }
 ```
 <br>
 
 ### implementation
-actually you can find implementation for the traits or TEPs in `mock (contracts/mock)` directory
+actually you can find implementation for the traits or TEPs in mock [contracts/mock](./contracts/mocks/) directory
 
 <br>
 
-We are working on a solution to use `npm` to install OpenGem Contracts and import them directly into your contracts without copying the files manually. Additionally, we are exploring potential changes in Tact to support importing directly from GitHub or similar platforms.
+### Tonion-CLI
 
-## Libraries
+We are working on a solution to use `npm` to install Tonion Contracts and import them directly into your contracts without copying the files manually.
+Additionally, we are exploring potential changes in Tact to support importing directly from GitHub or similar platforms.
+
+## Traits
 
 ```plaintext
 ├── access
