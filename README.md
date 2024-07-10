@@ -48,8 +48,7 @@ We are working on a solution to use `npm` to install OpenGem Contracts and impor
 │   └── paymentSplitter
 └── tokens
     └── jetton
-        ├── JettonMaster
-        ├── JettonWallet
+        ├── Jetton
         └── extensions
             ├── maxSupply(in progress)
             └── approveable(in progress)

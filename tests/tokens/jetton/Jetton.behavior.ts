@@ -53,7 +53,6 @@ export function shouldBehaveLikeBasicJetton(): void {
 
     it('should deploy', async () => {
         // the check is done inside beforeEach
-        // blockchain and nFTCollection are ready to use
     });
 
     it('should init correctly', async () => {
@@ -205,7 +204,7 @@ export function shouldBehaveLikeBasicJetton(): void {
         const bob_wallet = await jettonMaster.getGetWalletAddress(bob.address);
         const bobJettonWallet = blockchain.openContract(await JettonWalletImp.fromAddress(bob_wallet));
 
-        const aliceBalanceBefore = (await bobJettonWallet.getGetWalletData()).balance;
+        const bobBalanceBefore = (await bobJettonWallet.getGetWalletData()).balance;
 
         const burnResult = await bobJettonWallet.send(bob.getSender(), { value: toNano('0.15') }, burnMessage);
 
@@ -215,23 +214,23 @@ export function shouldBehaveLikeBasicJetton(): void {
             success: true,
         });
 
-        // Check that Alice's jetton wallet send JettonBurnNotification msg to JettonMaster
+        // Check that Bob's jetton wallet send JettonBurnNotification msg to JettonMaster
         expect(burnResult.transactions).toHaveTransaction({
             from: bobJettonWallet.address,
             to: jettonMaster.address,
             success: true,
         });
 
-        // Check that JettonMaster send JettonExcesses msg to Alice
+        // Check that JettonMaster send JettonExcesses msg to Bob
         expect(burnResult.transactions).toHaveTransaction({
             from: jettonMaster.address,
             to: bob.address,
             success: true,
         });
 
-        // Check that Alice's jetton wallet balance is subtracted 1
-        const aliceBalanceAfter = (await bobJettonWallet.getGetWalletData()).balance;
-        expect(aliceBalanceAfter).toEqual(aliceBalanceBefore - toNano("20"));
+        // Check that Bob's jetton wallet balance is subtracted 1
+        const bobBalanceAfter = (await bobJettonWallet.getGetWalletData()).balance;
+        expect(bobBalanceAfter).toEqual(bobBalanceBefore - toNano("20"));
 
     });
 }
