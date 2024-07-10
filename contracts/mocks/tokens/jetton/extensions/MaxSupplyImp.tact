@@ -1,6 +1,6 @@
 import "../../../traits/tokens/jetton/master.tact";
 import "../../../traits/tokens/jetton/wallet.tact";
-import "../../../traits/tokens/jetton/extensions/maxSupply.tact";
+import "../../../traits/tokens/jetton/extensions/MaxSupply.tact";
 message Mint {
     amount: Int;
     receiver: Address;

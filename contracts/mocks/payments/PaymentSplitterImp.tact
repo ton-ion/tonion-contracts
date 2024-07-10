@@ -1,5 +1,5 @@
 import "@stdlib/ownable";
-import "../../traits/payments/paymentSplitter.tact";
+import "../../traits/payments/PaymentSplitter.tact";
 
 
 message AddPayee {

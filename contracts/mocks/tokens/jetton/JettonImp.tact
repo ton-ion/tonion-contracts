@@ -1,7 +1,8 @@
+import "@stdlib/deploy";
 import "../../../traits/tokens/jetton/JettonMaster.tact";
 import "../../../traits/tokens/jetton/JettonWallet.tact";
 
-contract JettonMasterImp with JettonMaster {
+contract JettonMasterImp with JettonMaster, Deployable {
     total_supply: Int as coins;
     owner: Address;
     jetton_content: Cell;
@@ -26,7 +27,7 @@ contract JettonMasterImp with JettonMaster {
 
 }
 
-contract JettonWalletImp with JettonWallet {
+contract JettonWalletImp with JettonWallet, Deployable {
     balance: Int as coins = 0;
     owner: Address;
     jetton_master: Address;

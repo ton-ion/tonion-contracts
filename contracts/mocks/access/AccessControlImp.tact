@@ -1,4 +1,4 @@
-import "../../traits/access/accessControl.tact";
+import "../../traits/access/AccessControl.tact";
 
 message GrantAdminRoleMessage{
     role:Int;

@@ -1,4 +1,4 @@
-import "../../traits/access/ownableTransferable2Step.tact";
+import "../../traits/access/OwnableTransferable2Step.tact";
 
 contract OwnableTransferable2StepImp with OwnableTransferable2Step {
     owner:Address;
