@@ -85,7 +85,7 @@ Additionally, we are exploring potential changes in Tact to support importing di
 ## Traits
 
 ```plaintext
-contracts/traits
+┌ contracts/traits
 │
 ├── access
 │   │
@@ -130,7 +130,7 @@ contracts/traits
 ## Project Structure
 
 ```plaintext
-├── contracts
+┌── contracts
 │   │
 │   ├── traits
 │   │   │
@@ -139,7 +139,7 @@ contracts/traits
 │   │           └── (trait sub-categories)
 │   │               │
 │   │               └── (trait files)
-│   └── mocks
+│   ├── mocks
 │   │   │
 │   │   └── (mock categories)
 │   │           │
