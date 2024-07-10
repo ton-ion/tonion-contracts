@@ -85,19 +85,33 @@ Additionally, we are exploring potential changes in Tact to support importing di
 ## Traits
 
 ```plaintext
+contracts/traits
+│
 ├── access
-│   ├── OwnableTransferable2Step
-│   └── AccessControl
+│   │
+│   ├── OwnableTransferable2Step.tact ✅
+│   │
+│   └── AccessControl.tact ✅
+│
 ├── utils
-│   └── Counter
+│   │
+│   └── Counter.tact ✅
+│   
 ├── payments
-│   └── PaymentSplitter
+│   │
+│   └── PaymentSplitter.tact ✅
+│   
 └── tokens
+    │
     └── jetton
-        ├── Jetton
+        │
+        ├── Jetton.tact ✅
+        │
         └── extensions
-            ├── MaxSupply
-            └── Approveable(in progress)
+            │
+            ├── MaxSupply.tact ✅
+            │
+            └── Approveable.tact ⏳
 ```
 
 ## Scripts
