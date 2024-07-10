@@ -23,11 +23,8 @@ trait JettonMaster {
 
     receive(msg: JettonMint){
         let ctx: Context = context();
-        dump(0);
         self._mint_validate(ctx, msg);
-        dump(1);
         self._mint(ctx, msg);
-        dump(2);
     }
 
     receive(msg: JettonBurnNotification){
@@ -39,11 +36,8 @@ trait JettonMaster {
     abstract inline fun calculate_jetton_wallet_init(owner_address: Address): StateInit;
 
     virtual inline fun _mint_validate(ctx: Context, msg: JettonMint) {
-        dump(3);
         require(ctx.sender == self.owner, "JettonMaster: Sender is not a Jetton owner");
-        dump(4);
         require(self.mintable, "JettonMaster: Jetton is not mintable");
-        dump(5);
     }
 
     virtual inline fun _burn_notification_validate(ctx: Context, msg: JettonBurnNotification) {
@@ -52,10 +46,8 @@ trait JettonMaster {
     }
 
     virtual inline fun _mint(ctx: Context, msg: JettonMint) {
-        dump(6);
         let initCode: StateInit = self.calculate_jetton_wallet_init(msg.receiver);
         self.total_supply = (self.total_supply + msg.amount);
-        dump(7);
         send(SendParameters{
                 to: contractAddress(initCode),
                 value: 0,
@@ -73,7 +65,6 @@ trait JettonMaster {
                 data: initCode.data
             }
         );
-        dump(8);
     }
 
     inline fun _burn_notification(ctx: Context, msg: JettonBurnNotification) {

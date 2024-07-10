@@ -86,18 +86,18 @@ Additionally, we are exploring potential changes in Tact to support importing di
 
 ```plaintext
 ├── access
-│   ├── ownableTransferable2Step
-│   └── accessControl
+│   ├── OwnableTransferable2Step
+│   └── AccessControl
 ├── utils
-│   └── counter
+│   └── Counter
 ├── payments
-│   └── paymentSplitter
+│   └── PaymentSplitter
 └── tokens
     └── jetton
         ├── Jetton
         └── extensions
-            ├── maxSupply(in progress)
-            └── approveable(in progress)
+            ├── MaxSupply
+            └── Approveable(in progress)
 ```
 
 ## Scripts
@@ -117,17 +117,35 @@ Additionally, we are exploring potential changes in Tact to support importing di
 
 ```plaintext
 ├── contracts
+│   │
 │   ├── traits
+│   │   │
 │   │   └── (trait categories)
-│   │       └── (trait files)
+│   │           │
+│   │           └── (trait sub-categories)
+│   │               │
+│   │               └── (trait files)
 │   └── mocks
+│   │   │
 │   │   └── (mock categories)
-│   │       └── (mock files)
+│   │           │
+│   │           └── (mock sub-categories)
+│   │               │
+│   │               └── (mock files)
 ├── tests
+│   │
 │   ├── (test categories)
+│   │       │
 │   │       └── (test files)
+│   │
 │   └── main.spec.ts
+│
+├── wrappers
+│   │
+│   └──(wrapper file)
+│
 ├── package.json
+│
 └── README.md
 ```
 

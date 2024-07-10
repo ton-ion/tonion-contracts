@@ -1,88 +1,52 @@
-import "../../../traits/tokens/jetton/master.tact";
-import "../../../traits/tokens/jetton/wallet.tact";
-import "../../../traits/tokens/jetton/extensions/MaxSupply.tact";
-message Mint {
-    amount: Int;
-    receiver: Address;
-}
+import "@stdlib/deploy";
+import "../../../../traits/tokens/jetton/JettonMaster.tact";
+import "../../../../traits/tokens/jetton/JettonWallet.tact";
+import "../../../../traits/tokens/jetton/extensions/MaxSupply.tact";
 
-contract MaxSupplyJettonImp with Jetton, JettonMaxSupply  {
-    totalSupply: Int as coins;
-    maxSupply:Int as coins;
+contract MaxSupplyImp with JettonMaster, MaxSupply, Deployable {
+    total_supply: Int as coins;
+    max_supply: Int as coins;
     owner: Address;
-    content: Cell;
+    jetton_content: Cell;
     mintable: Bool;
     
-    init(owner: Address, content: Cell, maxSupply:Int){
-        self.maxSupply = maxSupply;
-        self.totalSupply = 0;
+    init(owner: Address, content: Cell){
+        self.total_supply = 0;
+        self.max_supply = ton("1000");
         self.owner = owner;
         self.mintable = true;
-        self.content = content;
+        self.jetton_content = content;
     }
 
-    receive(msg: Mint){
-        let ctx: Context = context();
-        require(ctx.sender == self.owner, "Not Owner");
+    override inline fun calculate_jetton_wallet_init(owner_address: Address): StateInit {
+        return initOf JettonWalletImp(owner_address, myAddress());
+    }
+
+    override inline fun _mint_validate(ctx: Context, msg: JettonMint) {
+        require(ctx.sender == self.owner, "JettonMaster: Sender is not a Jetton owner");
+        require(self.mintable, "JettonMaster: Jetton is not mintable");
         self.requireMaxSupply(msg.amount);
-        require(self.mintable, "Can't Mint Anymore");
-        let toWinit: StateInit = self.getJettonWalletInit(msg.receiver); // Create message
-        self.mint(msg.receiver, msg.amount, self.owner, toWinit); // (to, amount, response_destination)
     }
 
-    receive("Owner: MintClose"){
+    receive("Mint:Close"){
         let ctx: Context = context();
-        require(ctx.sender == self.owner, "Not Owner");
+        require(ctx.sender == self.owner, "JettonMaster: Sender is not a Jetton owner");
         self.mintable = false;
     }
 
-    receive(msg: TokenBurnNotification){
-        let toWinit: StateInit = self.getJettonWalletInit(msg.owner); // Create message
-        self.tokenBurnNotification(msg, toWinit);
-    }
-
-    fun getJettonWalletInit(address: Address): StateInit {
-        return initOf JettonSampleWalletImp(myAddress(), address);
-    }
-
-    get fun get_jetton_data(): JettonData {
-        let winit: StateInit = self.getJettonWalletInit(myAddress());
-        return self.get_jetton_data_handler(winit);
-    }
-
-    get fun get_wallet_address(owner: Address): Address {
-        let winit: StateInit = self.getJettonWalletInit(owner);
-        return self.get_wallet_address_handler(winit);
-    }
 }
 
-contract JettonSampleWalletImp with JettonDefaultWallet {
-    balance: Int;
+contract JettonWalletImp with JettonWallet, Deployable {
+    balance: Int as coins = 0;
     owner: Address;
-    master: Address;
-    init(_master: Address, _owner: Address){
-        self.balance = 0;
-        self.master = _master;
-        self.owner = _owner;
+    jetton_master: Address;
+
+    init(owner: Address, jetton_master: Address) {
+        self.owner = owner;
+        self.jetton_master = jetton_master;
     }
 
-    receive(msg: TokenTransfer){
-        let init: StateInit = initOf JettonSampleWalletImp(self.master, msg.destination);
-        self.tokenTransfer(msg, init);
-    }
-
-    receive(msg: TokenBurn){
-        self.tokenBurn(msg);
-    }
-
-    receive(msg: TokenTransferInternal){
-        // 0x178d4519
-        let sinit: StateInit = initOf JettonSampleWalletImp(self.master, msg.from);
-        self.tokenTransferInternal(msg, sinit);
-    }
-
-    get fun get_wallet_data(): JettonWalletData {
-        let sinit: Cell = initOf JettonSampleWalletImp(self.master, self.owner).code;
-        return self.get_wallet_data_handler(sinit);
+    override inline fun calculate_jetton_wallet_init(owner_address: Address): StateInit {
+        return initOf JettonWalletImp(owner_address, self.jetton_master);
     }
 }

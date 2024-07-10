@@ -1,20 +1,21 @@
 import { Blockchain, SandboxContract, TreasuryContract } from '@ton/sandbox';
 import { beginCell, Cell, Dictionary, toNano } from '@ton/core';
 import '@ton/test-utils';
+import { MaxSupplyImp } from '../../../../build/MaxSupply/tact_MaxSupplyImp';
 import { buildOnchainMetadata } from '../jettonHelper';
-import { JettonSampleWalletImp, TokenTransfer } from '../../../../build/BasicJetton/tact_JettonSampleWalletImp';
-import { MaxSupplyJettonImp } from '../../../../build/MaxSupplyJetton/tact_MaxSupplyJettonImp';
 
-export function shouldBehaveLikeMaxSupplyJetton(): void {
+export function shouldBehaveLikeMaxSupply(): void {
     let blockchain: Blockchain;
-    let jetton: SandboxContract<MaxSupplyJettonImp>;
-    let alice: SandboxContract<TreasuryContract>;
+    let maxSupply: SandboxContract<MaxSupplyImp>;
+
+    let owner: SandboxContract<TreasuryContract>;
     let bob: SandboxContract<TreasuryContract>;
+    let sarah: SandboxContract<TreasuryContract>;
 
     const jettonParams = {
-        name: 'open gem max supply',
-        description: 'This is description of open gem Jetton Token in Tact-lang',
-        symbol: 'OG',
+        name: 'Tonion',
+        description: 'This is description of tonion Jetton Token in Tact-lang',
+        symbol: 'TI',
         image: 'https://avatars.githubusercontent.com/u/173614477?s=96&v=4',
     };
 
@@ -22,45 +23,117 @@ export function shouldBehaveLikeMaxSupplyJetton(): void {
 
     beforeEach(async () => {
         blockchain = await Blockchain.create();
-        alice = await blockchain.treasury('ALICE');
+
+        owner = await blockchain.treasury('OWNER');
         bob = await blockchain.treasury('BOB');
-        const Jetton = await MaxSupplyJettonImp.fromInit(alice.address, jettonContent, BigInt('1000000000'));
-        jetton = blockchain.openContract<MaxSupplyJettonImp>(Jetton);
+        sarah = await blockchain.treasury('SARAH');
 
-        const mintMessage = await jetton.send(
-            alice.getSender(),
-            { value: toNano('5') },
-            { $$type: 'Mint', amount: BigInt('1000000000'), receiver: bob.address },
+        const Jetton = await MaxSupplyImp.fromInit(owner.address, jettonContent);
+        maxSupply = blockchain.openContract<MaxSupplyImp>(Jetton);
+
+        const deployResult = await maxSupply.send(
+            owner.getSender(),
+            {
+                value: toNano('0.05'),
+            },
+            {
+                $$type: 'Deploy',
+                queryId: 0n,
+            },
         );
 
-        expect(mintMessage.transactions).toHaveTransaction({
-            success:true,
-            from:alice.address,
-            to:jetton.address
-        })
-    });
-
-    it('should revert for mint more jetton correctly', async () => {
-        const mintMessage = await jetton.send(
-            alice.getSender(),
-            { value: toNano('1') },
-            { $$type: 'Mint', amount: BigInt('1'), receiver: bob.address },
-        );
-
-        expect(mintMessage.transactions).toHaveTransaction({
-            success: false,
-            from: alice.address,
-            to: jetton.address,
-            exitCode: 7878,
+        expect(deployResult.transactions).toHaveTransaction({
+            from: owner.address,
+            to: maxSupply.address,
+            deploy: true,
+            success: true,
         });
     });
 
-    it('should check maxSupply correctly', async () => {
-        // TODO
+    it('should deploy', async () => {
+        // the check is done inside beforeEach
     });
 
-    it('should return is reached maxSupply correctly', async () => {
-        const isReachedMaxSupply = await jetton.getIsMaxSupplyReached();
-        expect(isReachedMaxSupply).toBe(true);
+    it('should init correctly', async () => {
+        const ms = await maxSupply.getMaxSupply();
+        expect(ms).toBe(toNano('1000'));
+    });
+
+    it('should reach max supply correctly', async () => {
+        await maxSupply.send(
+            owner.getSender(),
+            { value: toNano('2') },
+            {
+                $$type: 'JettonMint',
+                amount: toNano('800'),
+                custom_payload: null,
+                origin: owner.address,
+                forward_ton_amount: toNano('0'),
+                forward_payload: beginCell().endCell(),
+                receiver: sarah.address,
+            },
+        );
+
+        let maxSupplyStatus = await maxSupply.getIsMaxSupplyReached();
+        expect(maxSupplyStatus).toBe(false);
+
+        await maxSupply.send(
+            owner.getSender(),
+            { value: toNano('2') },
+            {
+                $$type: 'JettonMint',
+                amount: toNano('200'),
+                custom_payload: null,
+                origin: owner.address,
+                forward_ton_amount: toNano('0'),
+                forward_payload: beginCell().endCell(),
+                receiver: sarah.address,
+            },
+        );
+        maxSupplyStatus = await maxSupply.getIsMaxSupplyReached();
+        expect(maxSupplyStatus).toBe(true);
+    });
+
+    it('should check max supply correctly', async () => {
+        await maxSupply.send(
+            owner.getSender(),
+            { value: toNano('2') },
+            {
+                $$type: 'JettonMint',
+                amount: toNano('800'),
+                custom_payload: null,
+                origin: owner.address,
+                forward_ton_amount: toNano('0'),
+                forward_payload: beginCell().endCell(),
+                receiver: sarah.address,
+            },
+        );
+
+        let maxSupplyStatus = await maxSupply.getIsMaxSupplyReached();
+        expect(maxSupplyStatus).toBe(false);
+
+        const checkMessage = await maxSupply.send(
+            owner.getSender(),
+            { value: toNano('2') },
+            {
+                $$type: 'JettonMint',
+                amount: toNano('300'),
+                custom_payload: null,
+                origin: owner.address,
+                forward_ton_amount: toNano('0'),
+                forward_payload: beginCell().endCell(),
+                receiver: sarah.address,
+            },
+        );
+
+        expect(checkMessage.transactions).toHaveTransaction({
+            from: owner.address,
+            to: maxSupply.address,
+            success: false,
+            exitCode: 7878,
+        });
+
+        maxSupplyStatus = await maxSupply.getIsMaxSupplyReached();
+        expect(maxSupplyStatus).toBe(false);
     });
 }
