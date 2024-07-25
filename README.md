@@ -6,17 +6,9 @@
 
 TonIon Contracts is a reusable smart contract library and toolkit for the Tact language on the TON blockchain. TonIon aims to provide reliable and efficient contract components to streamline the development of TON-based decentralized applications.
 
-## Table of Contents
+## Document
 
--   [Installation](#installation)
--   [Usage](#usage)
--   [Scripts](#scripts)
--   [Project Structure](#project-structure)
--   [Contributing](#contributing)
--   [Contributors](#contributors)
--   [License](#license)
-
-## Usage
+You can find Tonion documents on **[Tonion docs](https://tonion.tech)**
 
 ### Traits
 add the `traits (contracts/traits)` to your project `contracts/imports`, then
@@ -103,15 +95,31 @@ Additionally, we are exploring potential changes in Tact to support importing di
 │   
 └── tokens
     │
-    └── jetton
+    ├── jetton
+    │   │
+    │   ├── JettonMaster.tact ✅
+    │   ├── JettonWallet.tact ✅
+    │   │
+    │   └── extensions
+    │       │
+    │       ├── MaxSupply.tact ✅
+    │       │
+    │       └── Approveable.tact ❓
+    │
+    │
+    └── NFT
         │
-        ├── Jetton.tact ✅
+        ├── NFTCollection.tact ⏳
+        ├── NFTItem.tact ⏳
         │
         └── extensions
             │
-            ├── MaxSupply.tact ✅
+            ├── Editable.tact ⏳
             │
-            └── Approveable.tact ⏳
+            ├── MaxSupply.tact ⏳
+            │
+            └── Royalty.tact ⏳
+
 ```
 
 ## Scripts
