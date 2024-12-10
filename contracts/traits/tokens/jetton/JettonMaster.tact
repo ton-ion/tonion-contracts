@@ -69,7 +69,7 @@ trait JettonMaster {
 
     inline fun _burn_notification(ctx: Context, msg: JettonBurnNotification) {
         self.total_supply = (self.total_supply - msg.amount);
-        if (msg.response_destination != null) {
+        if (msg.response_destination.toString() != "") {
             send(SendParameters{
                     to: msg.response_destination,
                     value: 0,
