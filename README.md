@@ -206,6 +206,13 @@ We welcome contributions from the community! If you'd like to contribute, please
                     <sub><b>olumo-oke</b></sub>
                 </a>
             </td>
+            <td align="center">
+                <a href="https://github.com/satyasai69">
+                    <img src="https://avatars.githubusercontent.com/u/62896328?v=4" width="50;" alt="satyasai69"/>
+                    <br />
+                    <sub><b>satya sai</b></sub>
+                </a>
+            </td>
 		</tr>
 	<tbody>
 </table>
