@@ -213,6 +213,13 @@ We welcome contributions from the community! If you'd like to contribute, please
                     <sub><b>satya sai</b></sub>
                 </a>
             </td>
+            <td align="center">
+                <a href="https://github.com/seniorGarin">
+                    <img src="https://avatars.githubusercontent.com/u/72135452?v=4" width="50;" alt="seniorGarin"/>
+                    <br />
+                    <sub><b>seniorGarin</b></sub>
+                </a>
+            </td>
 		</tr>
 	<tbody>
 </table>
