@@ -58,24 +58,24 @@ trait AccessControl {
 
      fun _grantRole(role: Int, account: Address) {
         if (!self.hasRole(role,account)) {
-            let currnetRole:RoleData = self._roles.get(role)!!;
-            currnetRole.hasRole.set(account,true);
-            self._roles.set(role,currnetRole);
+            let currentRole:RoleData = self._roles.get(role)!!;
+            currentRole.hasRole.set(account,true);
+            self._roles.set(role,currentRole);
             emit(GrantRoleEvent{role:role,account:account}.toCell());
         }
-     }
+    }
 
     fun _revokeRole(role: Int, account: Address) {
         if (self.hasRole(role,account)) {
-            let currnetRole:RoleData = self._roles.get(role)!!;
-            currnetRole.hasRole.set(account,false);
-            self._roles.set(role,currnetRole);
+            let currentRole:RoleData = self._roles.get(role)!!;
+            currentRole.hasRole.set(account,false);
+            self._roles.set(role,currentRole);
             emit(RevokeRoleEvent{role:role,account:account}.toCell());
         }
-     }
+    }
 
     fun _checkRole(role:Int,account:Address) {
-            nativeThrowUnless(132,self.hasRole(role,account));
+        nativeThrowUnless(132,self.hasRole(role,account));
     }
 
     fun _checkSenderRole(role:Int) {
@@ -89,14 +89,14 @@ trait AccessControl {
     }
 
     virtual fun revokeRole(role: Int, account: Address) {
-        self._checkSenderRole(self.getRoleAdmin(role));
+        self._checkSenderRole(self.adminRole(role));
         self._revokeRole(role,account);
     }
 
     virtual fun grantRole(role: Int, account: Address) {
-        self._checkSenderRole(self.getRoleAdmin(role));
+        self._checkSenderRole(self.adminRole(role));
         self._grantRole(role,account);
-    } 
+    }
 
     get fun hasRole(role:Int, account:Address): Bool{
         let r: RoleData? = self._roles.get(role);
@@ -112,7 +112,7 @@ trait AccessControl {
         return true;
     }
 
-    get fun getRoleAdmin(role: Int): Int {
+    get fun adminRole(role: Int): Int {
         let r: RoleData? = self._roles.get(role);
         if(r == null){
             nativeThrow(666);
